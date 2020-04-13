@@ -130,8 +130,8 @@ func (o *TermOutput) Finish(m *module.Module, l *license.License, err error) {
 
 		case config.StateDenied:
 			if checkSkip(m.Path, o.Config.Skip) && l == nil {
-				colorFunc = color.YellowString
-				icon = iconWarning
+				colorFunc = color.BlueString
+				icon = iconSkip
 			} else {
 				colorFunc = color.RedString
 				icon = iconError
@@ -267,4 +267,5 @@ const (
 	iconError   = "🚫"
 	iconSuccess = "✅"
 	iconSpace   = "  "
+	iconSkip = "️❓"
 )

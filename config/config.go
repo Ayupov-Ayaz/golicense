@@ -64,5 +64,4 @@ const (
 	StateUnknown AllowState = iota
 	StateAllowed
 	StateDenied
-	StateSkip
 )
