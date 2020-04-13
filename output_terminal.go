@@ -105,6 +105,16 @@ func (o *TermOutput) Update(m *module.Module, t license.StatusType, msg string) 
 	o.updateLiveOutput()
 }
 
+func checkSkip(path string, skip []string) bool {
+	for _, s := range skip {
+		if path == s {
+			return true
+		}
+	}
+
+	return false
+}
+
 // Finish implements Output
 func (o *TermOutput) Finish(m *module.Module, l *license.License, err error) {
 	o.once.Do(o.init)
@@ -119,10 +129,14 @@ func (o *TermOutput) Finish(m *module.Module, l *license.License, err error) {
 			icon = iconSuccess
 
 		case config.StateDenied:
-			colorFunc = color.RedString
-			icon = iconError
-			o.exitCode = 1
-
+			if checkSkip(m.Path, o.Config.Skip) && l == nil {
+				colorFunc = color.YellowString
+				icon = iconWarning
+			} else {
+				colorFunc = color.RedString
+				icon = iconError
+				o.exitCode = 1
+			}
 		case config.StateUnknown:
 			if len(o.Config.Allow) > 0 || len(o.Config.Deny) > 0 {
 				colorFunc = color.YellowString
