@@ -17,6 +17,7 @@ type Config struct {
 	// priority.
 	Allow []string `hcl:"allow,optional"`
 	Deny  []string `hcl:"deny,optional"`
+	Skip []string `hcl:"skip,optional"`
 
 	// Override is a map that explicitly sets the license for the given
 	// import path. The key is an import path (exact) and the value is
